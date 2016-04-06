@@ -4,16 +4,31 @@
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
     <link rel="stylesheet" type="text/css" href="style.css">
+
+<title>DevMountain Chat</title>
+
   </head>
   <body ng-controller="mainCtrl">
     <div class="main-container">
-      <h1> DevMountain Chat Room </h1>
+      <h1>DevMountain Chat</h1><br>
+
+      <!--Button that sorts newest to oldest-->
+      <button ng-click="sortByDate()"name="name">
+      <span ng-show="sortOldtoNew">Sort by Oldest Message</span>
+      <span ng-hide="sortOldtoNew">Sort by Newest Message</span>
+      </button>
+
+
       <form ng-submit="postData()">
-        <input class="form-control text-box" type="text" ng-model="message" placeholder="Message">
+          <!-- when using form use ng-submit (no button to press).  ONly applies to first form box -->
+        <input class="form-control text-box" type="text" ng-model="message" placeholder="Enter Message"><br>
       </form>
-      <div class="messages-container">
-        <p ng-repeat="message in messages"> {{message.text}} </p>
+
+      <input class="form-control text-box" ng-model="filterMessage" placeholder="Filter Message"><br>
+      <div class="messages-container" ng-repeat="message in messages | filter: filterMessage | orderBy: 'createdAt': sortOldtoNew">
+        <p style='font-size: 20px'>{{message.text}}</p><p style='font-size: 12px;'>{{message.createdAt | date: "'Message sent at: ' h:mm:ss a'"}}</p><hr><br>
       </div>
+
     </div>
     <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.2.19.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular.min.js"></script>
